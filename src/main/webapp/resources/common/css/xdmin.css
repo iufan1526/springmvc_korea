@@ -1,22 +1,22 @@
 body {
-	
 	margin: 0;
-	
+	font-family: 'Nanum Gothic', cursive;
 }
 a {
 	text-decoration: none;
-	color: white;
+	color: black;
 }
 .navbar {
 	display: flex;
 	justify-content: space-between;
-	background-color: #ccc0ae;
+	background-color: #d5d5d5;
 	color: white;
 	width: 100%;
 }
 .navbar_main {
 	
 	font-size: 35px;
+	font-family: 'Gugi', cursive;
 }
 
 .navbar_menu ul {
@@ -37,7 +37,8 @@ a {
 .section_search ul {
 	margin: 30px 30px;
 	list-style: none;
-	background-color: rgb(247, 247, 234);
+	background-color: white;
+	border: 3px solid;
 
 }
 
@@ -48,7 +49,7 @@ a {
 	margin: 30px 30px;
 }
 .section_table table {
-	background-color:rgb(247, 247, 234) ;
+	background-color: white;
 	table-layout: fixed;
 	text-align: center;
 }
@@ -62,9 +63,7 @@ a {
 }
 .main_from {
 	margin: 50px;
-
 }
-
 .main_from div {
 	padding: 10px;
 }
@@ -84,3 +83,7 @@ h5 {
 	margin-right: 50px;
 
 }
+
+
+
+

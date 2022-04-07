@@ -7,15 +7,234 @@
 <mapper namespace="com.korea.infra.modules.member.MemberMpp">
 <resultMap id="resultMapObj" type="com.korea.infra.modules.member.Member"></resultMap>
 
-	<select id="selectListTest" resultMap="resultMapObj">
+<!-- 셀렉트 -->
+	<select id="selectList" resultMap="resultMapObj">
 		SELECT 
-				a.ifcgSeq
-				, a.ifcgName
-				, a.ifcgDelNy
-				, a.ifcgNameEng
+				a.ifmmSeq
+				, a.ifmmDelNy
+				, a.ifmmName
+				, a.ifmmId
+				, a.ifmmDob
+				, a.regDateTimeSvr
+				, b.ifmeNumber
+				,(select ifcdName from infrCode where ifcdSeq = a.ifmmGenderCd) as ifmmGender
 		FROM
-			nct.infrCodeGroup a
+			nct.infrMember a
+			left join infrMemberPhone b on b.ifmmSeq = a.ifmmSeq
+		WHERE 1=1
+			<choose>
+					<when test="shOption == 1">AND ifmmName  LIKE concat('%', #{shValue} ,'%')</when>
+					<when test="shOption == 2">AND ifmmId  LIKE concat('%', #{shValue} ,'%')</when>
+			</choose>
+			limit #{startRnumForMysql}, #{rowNumToShow}
 	</select>
+	
+	<select id="selectOne" resultMap="resultMapObj">
+		SELECT  
+			a.ifmmSeq
+			,a.ifmmName
+			,a.ifmmId
+			,a.ifmmPassword
+			,a.ifmmDesc
+			,a.ifmmDob
+			,(select ifcdName from infrCode where ifcdSeq = a.ifmmSavedCd) as ifmmSaved
+			,(select ifcdName from infrCode where ifcdSeq = a.ifmmGenderCd) as ifmmGender
+	        ,b.ifmaAddress1
+	        ,b.ifmaAddress2
+	        ,c.ifmeEmailFull
+	        ,d.ifmeNumber
+	        ,(select ifcdName from infrCode where ifcdSeq = d.ifmeTelecomCd) as ifmeTelecom
+		FROM infrMember a
+			left join infrMemberAddress b on b.ifmmSeq = a.ifmmSeq
+	        left join infrMemberEmail c on c.ifmmSeq = a.ifmmSeq
+	        left join infrMemberPhone d on d.ifmmSeq = a.ifmmSeq
+			WHERE 1=1
+			AND a.ifmmSeq = #{ifmmSeq};
+		
+	</select>
+	<select id="selectOneLogin" resultMap="resultMapObj">
+		select
+			a.ifmmSeq
+			, a.ifmmId
+			, a.ifmmName
+			, a.ifmmDesc
+		from
+			nct.infrMember a
+			
+		where 1=1
+			and a.ifmmId = #{ifmmId}
+			and a.ifmmPassword = #{ifmmPassword}
+	</select>
+	
+	
+	
+	
+	<select id="selectOneCount" resultType="Integer">
+			SELECT count(*)
+				FROM 
+				nct.infrMember a
+			WHERE 1=1
+			<choose>
+					<when test="shOption == 1">AND ifmmName  LIKE concat('%', #{shValue} ,'%')</when>
+					<when test="shOption == 2">AND ifmmId  LIKE concat('%', #{shValue} ,'%')</when>
+			</choose>
+	</select>
+<!-- 셀렉트 -->
+
+<!-- 등록 -->
+	<insert id="insertMember">
+		insert into nct.infrMember(
+			  ifmmName
+			  ,ifmmEngName
+			  ,ifmmId
+			  ,ifmmGenderCd
+			  ,ifmmPassword
+		      ,ifmmDesc
+		      ,ifmmDob	      
+			, ifmmDelNy	
+			, regDateTimeSvr
+			, ifmmSavedCd
+		)values(
+			#{ifmmName}
+			,#{ifmmEngName}
+			,#{ifmmId}
+			,#{ifmmGenderCd}
+			,#{ifmmPassword}
+			,#{ifmmDesc}
+			,#{ifmmDob}
+			,0
+			,NOW()
+			,#{ifmmSavedCd}
+		)
+		<selectKey resultType="String" keyProperty="ifmmSeq" order="AFTER">
+			SELECT last_insert_id()
+		 </selectKey>
+
+	</insert>
+	
+	<insert id="insertEmail">
+		insert into nct.infrMemberEmail(
+			ifmeEmailFull
+            ,ifmeDelNy
+            ,ifmeDefaultNy
+            ,ifmmSeq
+		)value(
+			#{ifmeEmailFull}
+            ,0
+            ,1
+            ,#{ifmmSeq}
+        )
+	</insert>
+	
+	<insert id="insertPhone">
+		insert into nct.infrMemberPhone(
+			ifmeNumber
+            ,ifmpDelNy
+            ,ifmpDefaultNy
+            ,ifmeTelecomCd
+            ,ifmmSeq
+		)value(
+			#{ifmeNumber}
+            ,0
+            ,1
+            ,#{ifmeTelecomCd}
+            ,#{ifmmSeq}
+        )
+	</insert>
+	
+	<insert id="insertAddress">
+		insert into nct.infrMemberAddress(
+			ifmaAddress1
+			,ifmaAddress2
+			,ifmaTypeCd
+            ,ifmaDelNy
+            ,ifmaDefaultNy
+            ,ifmmSeq
+		)value(
+			#{ifmaAddress1}
+			,#{ifmaAddress2}
+			,#{ifmaTypeCd}
+            ,0
+            ,1
+            ,#{ifmmSeq}
+        )
+	</insert>
+<!-- 등록 -->
+
+<!-- 업데이트 -->
+	<update id="update">
+			UPDATE nct.infrMember SET 
+				ifmmPassword  = #{ifmmPassword}
+				,ifmmDesc  = #{ifmmDesc}
+			WHERE 1=1
+				AND ifmmSeq= #{ifmmSeq}
+	</update>
+	
+	
+	<update id="updateAddress">
+		UPDATE nct.infrMemberAddress SET 
+			ifmaAddress1  =  #{ifmaAddress1}
+			,ifmaAddress2  = #{ifmaAddress2}
+		WHERE 1=1
+			AND ifmmSeq= #{ifmmSeq};
+	</update>
+	
+	
+	<update id="updateEmail">
+		UPDATE nct.infrMemberEmail SET 
+			ifmeEmailFull  =  #{ifmeEmailFull}
+		WHERE 1=1
+			AND ifmmSeq= #{ifmmSeq};
+	</update>
+	
+	<update id="updatePhone">
+		UPDATE nct.infrMemberPhone SET 
+			ifmeNumber  =  #{ifmeNumber}
+			,ifmeTelecomCd  =  #{ifmeTelecomCd}
+		WHERE 1=1
+			AND ifmmSeq= #{ifmmSeq};
+	</update>
+	
+<!-- 업데이트 -->
+
+
+<!-- 삭제 -->
+	<delete id="delete">
+			DELETE
+			FROM 
+				nct.infrMember
+			WHERE 1=1
+				AND ifmmSeq= #{ifmmSeq}
+	</delete>
+	
+	<delete id="deleteAddress">
+			DELETE
+				 
+			FROM 
+				nct.infrMemberAddress
+			WHERE 1=1
+				AND ifmmSeq= #{ifmmSeq}
+	</delete>
+		
+	<delete id="deleteEmail">
+			DELETE
+				 
+			FROM 
+				nct.infrMemberEmail
+			WHERE 1=1
+				AND ifmmSeq= #{ifmmSeq}
+	</delete>
+	
+	<delete id="deletePhone">
+			DELETE
+				 
+			FROM 
+				nct.infrMemberPhone
+			WHERE 1=1
+				AND ifmmSeq= #{ifmmSeq}
+	</delete>
+<!-- 삭제 -->
+	
 
 </mapper>
 
