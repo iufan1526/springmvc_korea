@@ -1,15 +1,24 @@
 package com.korea.infra.modules.member;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
+/**
+ * @author admin
+ *
+ */
+/**
+ * @author admin
+ *
+ */
 public class MemberVo {
 	
 	private String ifmmSeq;
 	private String shValue;
 	private String shOption;
-	private String shOptionDate;
-	private String shDateStart;
-	private String shDateEnd;
-	
-	
+	private Date shOptionDate;
+	private Date shDateStart;
+	private Date shDateEnd;
 	
 //	paging
 	private int thisPage = 1;									// 현재 페이지
@@ -119,22 +128,22 @@ public class MemberVo {
 		this.startRnumForMysql = startRnumForMysql;
 	}
 	
-	public String getShOptionDate() {
+public Date getShOptionDate() {
 		return shOptionDate;
 	}
-	public void setShOptionDate(String shOptionDate) {
+	public void setShOptionDate(Date shOptionDate) {
 		this.shOptionDate = shOptionDate;
 	}
-	public String getShDateStart() {
+	public Date getShDateStart() {
 		return shDateStart;
 	}
-	public void setShDateStart(String shDateStart) {
+	public void setShDateStart(Date shDateStart) {
 		this.shDateStart = shDateStart;
 	}
-	public String getShDateEnd() {
+	public Date getShDateEnd() {
 		return shDateEnd;
 	}
-	public void setShDateEnd(String shDateEnd) {
+	public void setShDateEnd(Date shDateEnd) {
 		this.shDateEnd = shDateEnd;
 	}
 public void setParamsPaging(int totalRowsParam) {

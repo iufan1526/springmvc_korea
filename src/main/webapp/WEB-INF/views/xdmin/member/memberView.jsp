@@ -40,7 +40,7 @@
 			</ul>		
 		</div> -->
     <div class="navbar_logout">
-      님 반갑습니다.
+     <c:out value="${sessName }"/><span style="color:black">님 반갑습니다.</span>
       <button type="button" class="btn btn-secondary">로그아웃</button>
     </div>
   </nav>
@@ -50,6 +50,7 @@
   	<input type="hidden" name="ifmmSeq" id="ifmmSeq" value="<c:out value="${rt.ifmmSeq}"/>">
   	<input type="hidden" name="shOption" id="shOption" value="<c:out value="${vo.shOption}"/>">
   	<input type="hidden" name="shValue" id="shValue" value="<c:out value="${vo.shValue}"/>">
+  	<input type="hidden" id="thisPage" name="thisPage" value="<c:out value="${vo.thisPage}" default="1"/>">
     <table class="table view_table">
       <thead>
         <tr>
@@ -59,7 +60,7 @@
       <tbody>
         <tr>
           <th scope="">프로필사진</th>
-          <td><img src="../../../images/icon_kakao.svg" width="100px" height="100px"></td>
+          <td><img src="${pageContext.request.contextPath}/resources/upload/<c:out value="${rt.uuidFileName}"/>"width="100px" height="100px"></td>
         </tr>
         <tr>
           <th scope="row">이름</th>

@@ -20,6 +20,8 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">	
 	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+	<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+  	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
 
 <body>
@@ -32,7 +34,7 @@
 				<a href="/infra/xdmin/member/memberList">회원관리</a>
 			</div>
 			<div class="navbar_logout">
-			     <c:out value="${sessName }"/><span style="color:black">님 반갑습니다.</span>
+			     <c:out value="${sessName }"/><span style="color:black">님 반갑습니다.</span><%-- <div style="text-align:center">${result}</div> --%>
 				<button type="button" class="btn btn-secondary" id="btnLogout" name="btnLogout">로그아웃</button>
 			</div>
 		</nav>
@@ -223,6 +225,20 @@
 		});
 
 	});
+	
 </script>
+	<!-- <script type="text/javascript">
+	  var naver_id_login = new naver_id_login("Zq1ggbTsBbjnfgSnMFN2", "http://localhost:8080/infra/xdmin/member/memberList");
+	  // 접근 토큰 값 출력
+	  alert(naver_id_login.oauthParams.access_token);
+	  // 네이버 사용자 프로필 조회
+	  naver_id_login.get_naver_userprofile("naverSignInCallback()");
+	  // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+	  function naverSignInCallback() {
+	    alert(naver_id_login.getProfileData('email'));
+	    alert(naver_id_login.getProfileData('nickname'));
+	    alert(naver_id_login.getProfileData('age'));
+	  }
+	</script> -->
 </body>
 </html>

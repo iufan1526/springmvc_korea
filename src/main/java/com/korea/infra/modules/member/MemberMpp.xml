@@ -37,6 +37,7 @@
 			,a.ifmmPassword
 			,a.ifmmDesc
 			,a.ifmmDob
+			,a.uuidFileName
 			,(select ifcdName from infrCode where ifcdSeq = a.ifmmSavedCd) as ifmmSaved
 			,(select ifcdName from infrCode where ifcdSeq = a.ifmmGenderCd) as ifmmGender
 	        ,b.ifmaAddress1
@@ -94,6 +95,8 @@
 			, ifmmDelNy	
 			, regDateTimeSvr
 			, ifmmSavedCd
+			,originalFileName
+			,uuidFileName
 		)values(
 			#{ifmmName}
 			,#{ifmmEngName}
@@ -105,6 +108,8 @@
 			,0
 			,NOW()
 			,#{ifmmSavedCd}
+			,#{originalFileName}
+			,#{uuidFileName}
 		)
 		<selectKey resultType="String" keyProperty="ifmmSeq" order="AFTER">
 			SELECT last_insert_id()

@@ -31,11 +31,24 @@
 				<exclude-mapping path="/xdmin/member/loginForm" />
 				<exclude-mapping path="/member/loginProc" />
 				<exclude-mapping path="/xdmin/member/findIdPwdForm" />
+				<exclude-mapping path="/xdmin/member/GloginProc" />
 				<beans:bean id="checkLoginSessionInterception" class="com.korea.infra.common.interceptor.CheckLoginSessionInterception"/>
 			</interceptor>
 		</interceptors>	
 	<!-- session interceptor e 2022.03.13 for logincheck -->
 	
+	
+	<!-- fileUpload s 2022.03.30 --> 
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="UTF-8"/>
+		<!-- <beans:property name="maxUploadSize" value="52428800"/> --> <!-- 50MB -->
+		<beans:property name="maxUploadSize" value="10485760"/> <!-- 10MB -->
+		<!-- <beans:property name="maxInMemorySize" value="1048576"/> --> <!-- 1MB -->
+	</beans:bean>
+	<!-- fileUpload e 2022.03.30 -->
+	
+<!-- 	 <beans:bean id="naverLoginBO" class="com.korea.infra.modules.naver.NaverLoginBo" />
+   NaverLoginBO Class에 대한 Bean설정 추가 -->
 	
 	
 </beans:beans>

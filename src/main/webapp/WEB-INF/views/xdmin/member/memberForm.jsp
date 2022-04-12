@@ -25,14 +25,14 @@
       <a href="/infra/xdmin/member/memberList">회원관리</a>
     </div>
     <div class="navbar_logout">
-      님 반갑습니다.
+      <c:out value="${sessName }"/><span style="color:black">님 반갑습니다.</span>
       <button type="button" class="btn btn-secondary">로그아웃</button>
     </div>
   </nav>
 
 
   <main>
-  <form id="form" name="form" method="post" action="/infra/xdmin/member/memberInst">
+  <form id="form" name="form" method="post" action="/infra/xdmin/member/memberInst" enctype="multipart/form-data">
   	<input type="hidden" name="shOption" id="shOption" value="<c:out value="${vo.shOption}"/>">
   	<input type="hidden" name="shValue" id="shValue" value="<c:out value="${vo.shValue}"/>">
     <div class="main_from container">
@@ -150,6 +150,10 @@
             <option value="8">10년</option>
             <option value="17">탈퇴시</option>
           </select>
+          	<div class="mb-3">
+			  <label for="formFile" class="form-label">프로필 이미지를 선택해주세요.</label>
+			  <input class="form-control" type="file" id="file" name="file" multiple="multiple" onChange="upload(0,2)">
+			</div>
         </div>
         <div class="main_botton">
          <button type="submit" class="btn btn-success" id="btnSubmit" name="btnSubmit">등록</button></a>
@@ -360,6 +364,63 @@
 		if(!checkNull($("#sample4_detailAddress"), $("#sample3_detailAddress").val(), "주소를입력해주세요")) return false; 
 
 });
+</script>
+
+<script type="text/javascript">
+	upload = function(seq, div){
+		
+		$("#ulFile" + seq).children().remove();
+		
+		var fileCount = $("input[type=file]")[seq].files.length;
+		
+		if(checkUploadedTotalFileNumber(fileCount, seq) == false) {return false;}
+		
+		var totalFileSize;
+		
+		for (var i = 0; i < fileCount ; i++) {
+			if(div == 1){
+				if(checkUploadedAllExt($("input[type=file]")[seq].files[i].name, seq) == false) {return false;}
+			} else if(div == 2) {
+				if(checkUploadedImageExt($("input[type=file]")[seq].files[i].name, seq) == false) {return false;}
+			} else {
+				return false;
+			}
+			
+			if(checkUploadedEachFileSize($("input[type=file]")[seq].files[i].name, seq) == false) {return false;}
+			totalFileSize += $("input[type=file]")[seq].files[i].size;
+		}
+		
+		if(checkUploadedTotalFileSize(totalFileSize, seq) === false){return false;}
+		
+		for(var i = 0; i< fileCount ; i++){
+			addUploadLi(seq, i, $("input[type=file]")[seq].files[i].name);
+		}
+	}
+	
+	addUploadLi = function (seq, index, name){
+		
+		var ul_list = $("#ulFile0");
+		
+		li = '<li id="li_'+seq+'_'+index+'" class="list-group-item d-flex justify-content-between align-items-center">';
+		li = li + name;
+		li = li + '<span class="badge bg-danger rounded-pill" onClick="delLi('+seq+','+index+')"><i class="fa-solid fa-x" style="cursor: pointer;"></i></span>';
+		li = li + '</li>';
+		
+		$("#ulFile"+seq).append(li);
+	}
+	
+	delLi = function(seq, index){
+		$("#li_"+seq+"_"+index).remove();
+	}
+	
+	
+	
+	var extArrayImage = new Array();
+	extArrayImage = ["jpg", "gif", "png", "jpeg", "bmp", "tif"];
+	
+	var extArrayAll = new Array();
+	extArrayAll = ["txt", "pdf", "hwp", "doc", "docx", "xls", "xlsx", "ppt", "pptx"];
+	
 </script>
 </body>
 </html>

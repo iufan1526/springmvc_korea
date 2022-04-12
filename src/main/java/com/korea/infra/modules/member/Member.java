@@ -3,6 +3,8 @@ package com.korea.infra.modules.member;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Member {
 	
 // infrMember
@@ -44,6 +46,12 @@ public class Member {
 	private String ifmpDefaultNy;
 	private String ifmpDelNy;
 	
+//file
+	
+	private MultipartFile file;
+	private MultipartFile file2;
+	private String originalFileName;
+	private String uuidFileName;
 	
 	
 	
@@ -234,8 +242,30 @@ public class Member {
 	public void setIfmeTelecom(String ifmeTelecom) {
 		this.ifmeTelecom = ifmeTelecom;
 	}
-	
-	
+	public String getOriginalFileName() {
+		return originalFileName;
+	}
+	public void setOriginalFileName(String originalFileName) {
+		this.originalFileName = originalFileName;
+	}
+	public String getUuidFileName() {
+		return uuidFileName;
+	}
+	public void setUuidFileName(String uuidFileName) {
+		this.uuidFileName = uuidFileName;
+	}
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	public MultipartFile getFile2() {
+		return file2;
+	}
+	public void setFile2(MultipartFile file2) {
+		this.file2 = file2;
+	}
 	
 	
 	

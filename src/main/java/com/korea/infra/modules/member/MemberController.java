@@ -1,8 +1,10 @@
 package com.korea.infra.modules.member;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.korea.infra.common.constants.Constant;
+import com.korea.infra.common.util.UtilDateTime;
+import com.mysql.cj.Constants;
 
 
 
@@ -26,9 +34,7 @@ public class MemberController {
 	@RequestMapping(value = "xdmin/member/memberList")
 	public String memberList(Model model, @ModelAttribute("vo")MemberVo vo) throws Exception {
 		
-//		vo.setShOptionDate(vo.getShOptionDate() == null ? 1 : vo.getShOptionDate());
-//		vo.setShDateStart(vo.getShDateStart() == null ? UtilDateTime.calculateDayString(UtilDateTime.nowLocalDateTime(), Constant.DATE_INTERVAL) : UtilDateTime.add00TimeString(vo.getShDateStart()));
-//		vo.setShDateEnd(vo.getShDateEnd() == null ? UtilDateTime.nowString() : UtilDateTime.addNowTimeString(vo.getShDateEnd()));
+	
 
 		//Count 가져오는 쿼리
 		
@@ -93,6 +99,17 @@ public class MemberController {
 	@RequestMapping(value = "xdmin/member/memberInst")
 	public String memberInst(Member dto,MemberVo vo) throws Exception {
 		
+		MultipartFile multipartFile = dto.getFile();
+		String fileName = multipartFile.getOriginalFilename();
+		String ext =fileName.substring(fileName.lastIndexOf(".")+ 1);
+		String uuid = UUID.randomUUID().toString();
+		String uuidFileName = uuid + "." + ext;
+		multipartFile.transferTo(new File("/Users/admin/Desktop/Fectory/ws_sts3/springmvc_korea/src/main/webapp/resources/upload/"+ uuidFileName));
+		
+		// 입력을 작동시킨다.
+		dto.setOriginalFileName(fileName);
+		dto.setUuidFileName(uuidFileName);
+		
 		service.insertMember(dto);
 		service.insertAddress(dto);
 		service.insertEmail(dto);
@@ -127,7 +144,7 @@ public class MemberController {
 		service.update(dto);
 		System.out.println("업데이트2 vo.getShValue() " + vo.getShValue());
 		
-		return "redirect:/xdmin/member/memberView?ifmmSeq=" + vo.getIfmmSeq() +"&shOption=" + vo.getShOption() +"&shValue=" + vo.getShValue() ; 
+		return "redirect:/xdmin/member/memberView?ifmmSeq=" + vo.getIfmmSeq() +"&shOption=" + vo.getShOption() +"&shValue=" + vo.getShValue() +"&thisPage=" + vo.getThisPage() ; 
 		
 	}
 	
@@ -174,6 +191,20 @@ public class MemberController {
 		httpSession.invalidate();
 		returnMap.put("rt", "success");
 	
+		return returnMap;
+	}
+	
+	
+	@ResponseBody //구글 로그인
+	@RequestMapping(value = "/member/GloginProc")
+	public Map<String, Object> GloginProc(@RequestParam("ifmmId")String name,Member dto, HttpSession httpSession) throws Exception {
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		
+		
+		System.out.println(name);
+	
+		returnMap.put("rt", "success");
+		
 		return returnMap;
 	}
 	
