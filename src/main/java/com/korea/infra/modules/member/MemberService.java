@@ -20,6 +20,8 @@ public interface MemberService {
 	
 	public int insertPhone(Member dto) throws Exception;
 	
+	public int insert(Member dto) throws Exception;
+	
 	
 	
 //삭제
@@ -41,5 +43,7 @@ public interface MemberService {
 	public int updateEmail(Member dto) throws Exception;
 	
 	public int updatePhone(Member dto) throws Exception;
+	
+	public int updateRest(Member dto) throws Exception;
 
 }

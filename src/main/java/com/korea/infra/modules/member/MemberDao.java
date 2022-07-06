@@ -35,6 +35,8 @@ public class MemberDao {
 	
 	public int insertPhone(Member dto) {return sqlSession.insert(namespace+".insertPhone", dto);}
 	
+	public int insert(Member dto) {return sqlSession.insert(namespace+".insert", dto);}
+	
 //삭제
 	public int delete(MemberVo vo) {return sqlSession.delete(namespace+".delete", vo);}
 	
@@ -50,6 +52,7 @@ public class MemberDao {
 //업데이트 
 
 	public int update(Member dto) {return sqlSession.update(namespace+".update", dto);}
+	public int updateRest(Member dto) {return sqlSession.update(namespace+".updateRest", dto);}
 	public int updateAddress(Member dto) {return sqlSession.update(namespace+".updateAddress", dto);}
 	public int updateEmail(Member dto) {return sqlSession.update(namespace+".updateEmail", dto);}
 	public int updatePhone(Member dto) {return sqlSession.update(namespace+".updatePhone", dto);}

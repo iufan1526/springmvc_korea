@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -26,7 +25,8 @@
 					<when test="shOption == 1">AND ifmmName  LIKE concat('%', #{shValue} ,'%')</when>
 					<when test="shOption == 2">AND ifmmId  LIKE concat('%', #{shValue} ,'%')</when>
 			</choose>
-			limit #{startRnumForMysql}, #{rowNumToShow}
+			ORDER BY ifmmSeq DESC
+			LIMIT #{startRnumForMysql}, #{rowNumToShow};
 	</select>
 	
 	<select id="selectOne" resultMap="resultMapObj">
@@ -71,8 +71,9 @@
 	
 	
 	<select id="selectOneCount" resultType="Integer">
-			SELECT count(*)
-				FROM 
+			SELECT 
+				count(*)
+			FROM 
 				nct.infrMember a
 			WHERE 1=1
 			<choose>
@@ -131,6 +132,18 @@
         )
 	</insert>
 	
+	<insert id="insert">
+		insert into nct.infrMember(
+			ifmmName
+            ,ifmmId
+            ,ifmmDelNy
+		)value(
+			#{ifmmName}
+            ,#{ifmmId}
+            ,0
+        )
+	</insert>
+	
 	<insert id="insertPhone">
 		insert into nct.infrMemberPhone(
 			ifmeNumber
@@ -171,6 +184,14 @@
 			UPDATE nct.infrMember SET 
 				ifmmPassword  = #{ifmmPassword}
 				,ifmmDesc  = #{ifmmDesc}
+			WHERE 1=1
+				AND ifmmSeq= #{ifmmSeq}
+	</update>
+	
+	<update id="updateRest">
+			UPDATE nct.infrMember SET 
+				ifmmName  = #{ifmmName}
+				,ifmmId  = #{ifmmId}
 			WHERE 1=1
 				AND ifmmSeq= #{ifmmSeq}
 	</update>

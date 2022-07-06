@@ -23,19 +23,20 @@
 	
 	<context:component-scan base-package="com.korea.infra" />
 	
+	
 		<!-- session interceptor s 2022.03.13 for logincheck -->
-		<interceptors>
+		<!-- <interceptors>
 			<interceptor>
 				<mapping path="/**"/>
 				<exclude-mapping path="/resources/**" />
 				<exclude-mapping path="/xdmin/member/loginForm" />
 				<exclude-mapping path="/member/loginProc" />
 				<exclude-mapping path="/xdmin/member/findIdPwdForm" />
-				<exclude-mapping path="/xdmin/member/GloginProc" />
 				<beans:bean id="checkLoginSessionInterception" class="com.korea.infra.common.interceptor.CheckLoginSessionInterception"/>
 			</interceptor>
-		</interceptors>	
+		</interceptors>	 -->
 	<!-- session interceptor e 2022.03.13 for logincheck -->
+	
 	
 	
 	<!-- fileUpload s 2022.03.30 --> 
@@ -47,8 +48,5 @@
 	</beans:bean>
 	<!-- fileUpload e 2022.03.30 -->
 	
-<!-- 	 <beans:bean id="naverLoginBO" class="com.korea.infra.modules.naver.NaverLoginBo" />
-   NaverLoginBO Class에 대한 Bean설정 추가 -->
 	
-	
-</beans:beans>
+	</beans:beans>

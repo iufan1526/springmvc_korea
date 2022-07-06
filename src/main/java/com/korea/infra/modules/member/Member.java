@@ -9,7 +9,7 @@ public class Member {
 	
 // infrMember
 	private String ifmmSeq;
-	private Integer ifmmDelNy;
+	private String ifmmDelNy;
 	private String ifmmName;
 	private String ifmmId;
 	private String ifmmPassword;
@@ -62,10 +62,10 @@ public class Member {
 	public void setIfmmSeq(String ifmmSeq) {
 		this.ifmmSeq = ifmmSeq;
 	}
-	public Integer getIfmmDelNy() {
+	public String getIfmmDelNy() {
 		return ifmmDelNy;
 	}
-	public void setIfmmDelNy(Integer ifmmDelNy) {
+	public void setIfmmDelNy(String ifmmDelNy) {
 		this.ifmmDelNy = ifmmDelNy;
 	}
 	public String getIfmmName() {

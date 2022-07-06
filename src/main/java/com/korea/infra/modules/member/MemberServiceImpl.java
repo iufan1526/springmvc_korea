@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.korea.infra.common.util.UtilDateTime;
+import com.korea.infra.common.util.UtilMail;
+
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -34,6 +37,8 @@ public class MemberServiceImpl implements MemberService {
 // 등록
 	@Override
 	public int insertMember(Member dto) throws Exception {
+		
+		UtilMail.sendMail();
 		return dao.insertMember(dto);
 	}
 
@@ -51,7 +56,13 @@ public class MemberServiceImpl implements MemberService {
 		return dao.insertPhone(dto);
 	}
 	
-// 삭제
+	
+	@Override
+	public int insert(Member dto) throws Exception {
+		return dao.insert(dto);
+	}
+
+	// 삭제
 	@Override
 	public int delete(MemberVo vo) throws Exception {
 		return dao.delete(vo);
@@ -90,6 +101,12 @@ public class MemberServiceImpl implements MemberService {
 	public int updatePhone(Member dto) throws Exception {
 		return dao.updatePhone(dto);
 	}
+
+	@Override
+	public int updateRest(Member dto) throws Exception {
+		return dao.updateRest(dto);
+	}
+
 
 	
 	

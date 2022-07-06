@@ -132,10 +132,6 @@
 				<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
 			</div>
         </div>
-        <div class="col-sm-12 col-md-6">
-          <input type="text" id="lat" name="lat">
-          <input type="text" id="lng" name="lng">
-        </div>
       </div>
       <div class="row">
         <div class="col-sm-12 col-md-6">
@@ -150,10 +146,6 @@
             <option value="8">10년</option>
             <option value="17">탈퇴시</option>
           </select>
-          	<div class="mb-3">
-			  <label for="formFile" class="form-label">프로필 이미지를 선택해주세요.</label>
-			  <input class="form-control" type="file" id="file" name="file" multiple="multiple" onChange="upload(0,2)">
-			</div>
         </div>
         <div class="main_botton">
          <button type="submit" class="btn btn-success" id="btnSubmit" name="btnSubmit">등록</button></a>

@@ -43,12 +43,12 @@
 				<div class="section_search_menu">
 					<ul>
 						<li>검색어
-							<select class="form-select form-select-sm"id="shOption" name="shOption" aria-label="Default select example" data-width="50%" width="100px">
+							<select class="form-select form-select-sm"id="shOption" name="shOption" aria-label="Default select example" data-width="50%" style="width:200px; margin: 10px;">
 							  <option value="0"selected>검색어를 선택해주세요</option>
 							  <option value="1" <c:if test="${vo.shOption eq 1}">selected</c:if>>이름</option>
 							  <option value="2" <c:if test="${vo.shOption eq 2}">selected</c:if>>아이디</option>
 							</select>
-							<input type="text"  id="shValue" name="shValue" style="height:23px"maxlength="20" value="<c:out value="${vo.shValue}"/>">
+							<input type="text"  id="shValue" name="shValue" style="height:23px; margin: 10px;"maxlength="20" value="<c:out value="${vo.shValue}"/>">
 						</li>
 						<li>
 							<button type="submit" class="btn btn-outline-primary" id="btnSubmit" name="search">검색</button>
@@ -62,7 +62,6 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th scope="col"><input type="checkbox"></th>
 								<th scope="col">번호</th>
 								<th scope="col">이름</th>
 								<th scope="col">성별</th>
@@ -82,7 +81,6 @@
 								<c:otherwise>
 									<c:forEach items="${list}" var="item" varStatus="status">
 										<tr>
-											<td scope="col"><input type="checkbox"></td>
 											<td scope="col"><c:out value="${item.ifmmSeq}"/></td>
 <%-- 											<td scope="col"><a href="/infra/xdmin/member/memberView?ifmmSeq=${item.ifmmSeq}&shOption=<c:out value="${vo.shOption}"/>&shValue=<c:out value="${vo.shValue}"/>"/><c:out value="${item.ifmmName}"/></a></td> --%>
 											<td scope="col"><a href="javascript:goView(<c:out value="${item.ifmmSeq}"/>);"><c:out value="${item.ifmmName}"/></a></td>

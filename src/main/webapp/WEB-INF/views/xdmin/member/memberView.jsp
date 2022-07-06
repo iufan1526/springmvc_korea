@@ -60,7 +60,7 @@
       <tbody>
         <tr>
           <th scope="">프로필사진</th>
-          <td><img src="${pageContext.request.contextPath}/resources/upload/<c:out value="${rt.uuidFileName}"/>"width="100px" height="100px"></td>
+          <td><img src="${pageContext.request.contextPath}/resources/user/image/images.png"width="100px" height="100px"></td>
         </tr>
         <tr>
           <th scope="row">이름</th>

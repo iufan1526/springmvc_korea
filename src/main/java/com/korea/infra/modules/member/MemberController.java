@@ -1,6 +1,12 @@
+
 package com.korea.infra.modules.member;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,13 +19,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.korea.infra.common.constants.Constant;
-import com.korea.infra.common.util.UtilDateTime;
-import com.mysql.cj.Constants;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 
@@ -61,6 +66,166 @@ public class MemberController {
 		return "xdmin/member/memberList";
 		
 	}
+	@RequestMapping(value = "xdmin/member/testView")
+	public String testView(Model model, @ModelAttribute("vo")MemberVo vo) throws Exception {
+		
+		
+		String apiUrl = "http://localhost:8080/infra/rest/member";
+		
+		//api 를 호출해서 데이터를 받아온다.
+		
+		   
+		   URL url = new URL(apiUrl);
+		   HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+		   httpURLConnection.setRequestMethod("GET");
+		   
+		   BufferedReader bufferedReader;
+		   if (httpURLConnection.getResponseCode() >= 200 && httpURLConnection.getResponseCode() <= 300) {
+			   bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+		   } else {
+			   bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getErrorStream()));
+		   }
+		   
+		   StringBuilder stringBuilder = new StringBuilder();
+		   String line;
+		   while  ((line = bufferedReader.readLine()) != null) {
+				/* System.out.println("line: " + line); */
+			   stringBuilder.append(line);
+		   }
+		   
+		   bufferedReader.close();
+		   httpURLConnection.disconnect();
+		   
+		   //-------------------------
+		   
+			/* System.out.println("final line:" + stringBuilder.append(line)); */
+		   
+		   ObjectMapper objectMapper = new ObjectMapper();
+		   List<Member> memberList = objectMapper.readValue(stringBuilder.toString(), new TypeReference<List<Member>>(){});
+		   
+		   model.addAttribute("list", memberList);
+//		   Member member = objectMapper.readValue(stringBuilder.toString(), Member.class);
+//		   
+//		   model.addAttribute("item", member);
+		
+		
+		return "xdmin/member/testView";
+		
+	}
+//	@RequestMapping(value = "xdmin/member/publicCorona1List")
+//	public String publicCorona1List(Model model) throws Exception {
+//		
+//		String apiUrl = "http://apis.data.go.kr/1471000/CovidDagnsRgntProdExprtStusService/getCovidDagnsRgntProdExprtStusInq?serviceKey=3nc20LL7gZSQWnltTvsoGOFaQSO62khwDAzWJ%2FRdaaqdK9GXCjG3GZus%2FvH5P1vGC%2B6uAKu3lnkrsKJqEkN%2BDg%3D%3D&numOfRows=3&pageNo=1&type=json";
+//		
+//		//api 를 호출해서 데이터를 받아온다.
+//		
+//		   
+//		   URL url = new URL(apiUrl);
+//		   HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+//		   httpURLConnection.setRequestMethod("GET");
+//		   
+//		   BufferedReader bufferedReader;
+//		   if (httpURLConnection.getResponseCode() >= 200 && httpURLConnection.getResponseCode() <= 300) {
+//			   bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+//		   } else {
+//			   bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getErrorStream()));
+//		   }
+//		   
+//		   StringBuilder stringBuilder = new StringBuilder();
+//		   String line;
+//		   while  ((line = bufferedReader.readLine()) != null) {
+//				/* System.out.println("line: " + line); */
+//			   stringBuilder.append(line);
+//		   }
+//		   
+//		   bufferedReader.close();
+//		   httpURLConnection.disconnect();
+//		   
+//		   System.out.println(stringBuilder.toString());
+//		   
+//		   ObjectMapper objectMapper = new ObjectMapper();
+//		   Map<String,Object> map = objectMapper.readValue(stringBuilder.toString(), Map.class);
+//		   
+//		   
+//		   for(String key : map.keySet()) {
+//			   String value = String.valueOf(map.get(key));
+//			   System.out.println("[key]: " + key + "[value]"+ value);
+//			   
+//		   }
+//		   
+//		   Map<String,Object> header = new HashMap<String , Object>();
+//		   header = (Map<String, Object>)map.get("header");
+//		   
+//		   
+//		   for(String key : header.keySet()) {
+//			   String value = String.valueOf(header.get(key));
+//			   System.out.println(key + value);
+//			   
+//		   }
+//		   
+//		   String aaa = (String)header.get("resultCode");
+//		   
+//		   
+//		   System.out.println(header.get("resultCode"));
+//		   System.out.println(header.get("resultMsg"));
+//		   
+//		   Map<String,Object> body = new HashMap<String , Object>();
+//		   body = (Map<String, Object>)map.get("body");
+//		   
+//		   List<Home> items = new ArrayList<Home>();
+//		   items = (List<Home>)body.get("items");
+//		   
+//		  
+//		  model.addAllAttributes(header);
+//		  model.addAllAttributes(body);
+//		   
+//		return "xdmin/member/publicCorona1List";
+//		
+//	}
+	@RequestMapping(value = "xdmin/member/publicCoronaJsonNodeList")
+	public String publicCoronaJsonNodeList(Model model) throws Exception {
+		
+		String apiUrl = "http://apis.data.go.kr/1471000/CovidDagnsRgntProdExprtStusService/getCovidDagnsRgntProdExprtStusInq?serviceKey=3nc20LL7gZSQWnltTvsoGOFaQSO62khwDAzWJ%2FRdaaqdK9GXCjG3GZus%2FvH5P1vGC%2B6uAKu3lnkrsKJqEkN%2BDg%3D%3D&numOfRows=3&pageNo=1&type=json";
+		
+		URL url = new URL(apiUrl);
+		   HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+		   httpURLConnection.setRequestMethod("GET");
+		   
+		   BufferedReader bufferedReader;
+		   if (httpURLConnection.getResponseCode() >= 200 && httpURLConnection.getResponseCode() <= 300) {
+			   bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+		   } else {
+			   bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getErrorStream()));
+		   }
+		   
+		   StringBuilder stringBuilder = new StringBuilder();
+		   String line;
+		   while  ((line = bufferedReader.readLine()) != null) {
+				/* System.out.println("line: " + line); */
+			   stringBuilder.append(line);
+		   }
+		   
+		   bufferedReader.close();
+		   httpURLConnection.disconnect();
+		   
+		   System.out.println(stringBuilder.toString());
+		   
+		   ObjectMapper objectMapper = new ObjectMapper();
+		   JsonNode node = objectMapper.readTree(stringBuilder.toString());
+		   
+		   
+		   System.out.println(node.get("header").get("resultCode").asText());
+		   System.out.println(node.get("header").get("resultMsg").asText());
+		   System.out.println(node.get("body").get("items").get(0).get("KIT_EXPRT_QTY").asText());
+		   
+		   model.addAttribute("node", node);
+		
+	
+		return "xdmin/member/publicCoronaJsonNodeList";
+		
+	}
+	
+	
 	
 	@RequestMapping(value = "xdmin/member/memberView")
 	public String memberView(Model model, @ModelAttribute("vo")MemberVo vo) throws Exception {
@@ -99,16 +264,14 @@ public class MemberController {
 	@RequestMapping(value = "xdmin/member/memberInst")
 	public String memberInst(Member dto,MemberVo vo) throws Exception {
 		
-		MultipartFile multipartFile = dto.getFile();
-		String fileName = multipartFile.getOriginalFilename();
-		String ext =fileName.substring(fileName.lastIndexOf(".")+ 1);
-		String uuid = UUID.randomUUID().toString();
-		String uuidFileName = uuid + "." + ext;
-		multipartFile.transferTo(new File("/Users/admin/Desktop/Fectory/ws_sts3/springmvc_korea/src/main/webapp/resources/upload/"+ uuidFileName));
+//		MultipartFile multipartFile = dto.getFile();
+//		String fileName = multipartFile.getOriginalFilename();
+//		String ext =fileName.substring(fileName.lastIndexOf(".")+ 1);
+//		String uuid = UUID.randomUUID().toString();
+//		String uuidFileName = uuid + "." + ext;
+//		multipartFile.transferTo(new File("/Users/admin/Desktop/Fectory/ws_sts3/springmvc_korea/src/main/webapp/resources/upload/"+ uuidFileName));
 		
 		// 입력을 작동시킨다.
-		dto.setOriginalFileName(fileName);
-		dto.setUuidFileName(uuidFileName);
 		
 		service.insertMember(dto);
 		service.insertAddress(dto);
@@ -116,6 +279,21 @@ public class MemberController {
 		service.insertPhone(dto);
 		
 		return "redirect:/xdmin/member/memberList";
+		
+	}
+	@RequestMapping(value = "xdmin/member/insert")
+	public String insert(Member dto,MemberVo vo) throws Exception {
+		
+		
+		service.insert(dto);
+		
+		return "/xdmin/index/form";
+		
+	}
+	@RequestMapping(value = "xdmin/member/form")
+	public String form() throws Exception {
+		
+		return "/xdmin/index/form";
 		
 	}
 	
@@ -169,12 +347,14 @@ public class MemberController {
 
 			if(rtMember.getIfmmSeq() != null) {
 	
+				System.out.println(dto.getIfmmId()+"로그인 성공!!");
 				httpSession.setAttribute("sessSeq", rtMember.getIfmmSeq());
 				httpSession.setAttribute("sessId", rtMember.getIfmmId());
 				httpSession.setAttribute("sessName", rtMember.getIfmmName());
 				
 				returnMap.put("rt", "success");
 			} else {
+				System.out.println("잘모쇴습니다");
 				returnMap.put("rt", "fail");
 			}
 		} else {
@@ -194,19 +374,6 @@ public class MemberController {
 		return returnMap;
 	}
 	
-	
-	@ResponseBody //구글 로그인
-	@RequestMapping(value = "/member/GloginProc")
-	public Map<String, Object> GloginProc(@RequestParam("ifmmId")String name,Member dto, HttpSession httpSession) throws Exception {
-		Map<String, Object> returnMap = new HashMap<String, Object>();
-		
-		
-		System.out.println(name);
-	
-		returnMap.put("rt", "success");
-		
-		return returnMap;
-	}
 	
 	
 	
