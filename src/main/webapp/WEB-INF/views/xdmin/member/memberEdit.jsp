@@ -18,6 +18,14 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">
 	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+		
+	<style type="text/css">
+  	
+  		body {
+  		
+  			font-family: Georgia, "맑은 고딕", serif;;
+  		}
+  	</style>
 </head>
 <body>
   <nav class="navbar">
@@ -46,7 +54,7 @@
       <tbody>
         <tr>
           <th scope="">프로필사진</th>
-          <td><img src="${pageContext.request.contextPath}/resources/upload/<c:out value="${rt.uuidFileName}"/>"width="100px" height="100px"></td>
+          <td><img src="${pageContext.request.contextPath}/resources/user/image/images.png" width="100px" height="100px"></td>
         </tr>
         <tr>
           <th scope="row">이름</th>

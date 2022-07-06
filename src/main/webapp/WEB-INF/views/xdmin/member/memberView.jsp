@@ -21,6 +21,14 @@
 	<link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">
 	
 	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+	
+	<style type="text/css">
+  	
+  		body {
+  		
+  			font-family: Georgia, "맑은 고딕", serif;;
+  		}
+  	</style>
 </head>
 <body>
   <nav class="navbar">
